@@ -121,6 +121,9 @@ namespace MugenMvvmToolkit.DryIoc
 
             public void Dispose()
             {
+                if (!IsDisposed)
+                    Disposed?.Invoke(this, EventArgs.Empty);
+
                 _parentContainer.Dispose();
             }
 

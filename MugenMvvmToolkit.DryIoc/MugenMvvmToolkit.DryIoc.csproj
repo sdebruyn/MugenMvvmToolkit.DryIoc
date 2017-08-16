@@ -1,11 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
+    <PackageVersion>1.0</PackageVersion>
+    <Authors>Samuel Debruyn</Authors>
+    <PackageLicenseUrl>https://github.com/SamuelDebruyn/MugenMvvmToolkit.DryIoc/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/SamuelDebruyn/MugenMvvmToolkit.DryIoc</PackageProjectUrl>
+    <PackageTags>ioc,dependency injection,mvvm,mugenmvvm,dryioc</PackageTags>
+    <Title>DryIoc container for Mugen MVVM Toolkit</Title>
+    <Description>Adapter for DryIoc to integrate with Mugen MVVM Toolkit</Description>
+    <PackageId>MugenMvvmToolkit.DryIoc</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DryIoc.dll" Version="2.11.6" />
     <PackageReference Include="MugenMVVMToolkit" Version="6.5.0" />
-    <PackageReference Include="NETStandard.Library" Version="2.0.0" />
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
   </ItemGroup>
 </Project>
