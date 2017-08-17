@@ -7,3 +7,17 @@ Adapter for [DryIoc](https://bitbucket.org/dadhi/dryioc) to integrate with [Muge
 ```
 Install-Package MugenMvvmToolkit.DryIoc
 ```
+
+### Parameters
+
+At the moment there are no supported IIocParameters as I haven't needed them myself. Please create an issue or a PR if you're missing functionality.
+
+### Release notes
+
+#### 1.0.1
+
+* [FIXED] Child containers didn't have the parent's registrations
+
+#### 1.0.0
+
+* Initial release

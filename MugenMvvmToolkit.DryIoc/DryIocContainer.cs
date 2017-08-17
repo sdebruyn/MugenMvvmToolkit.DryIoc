@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using DryIoc;
 using MugenMvvmToolkit.Interfaces;
@@ -13,18 +14,21 @@ namespace MugenMvvmToolkit.DryIoc
     {
         static int _idCounter;
 
-        readonly Container _container;
+        readonly IContainer _container;
         readonly DryIocContainer _parent;
+        bool _disposed;
 
         public DryIocContainer()
         {
-            _container = new Container();
+            _container = new Container(rules => rules.With(FactoryMethod.ConstructorWithResolvableArguments));
             Id = Interlocked.Increment(ref _idCounter);
         }
 
-        DryIocContainer(DryIocContainer parent) : this()
+        DryIocContainer(DryIocContainer parent)
         {
             _parent = parent;
+            _container = ((Container) parent.Container).WithRegistrationsCopy();
+            Id = Interlocked.Increment(ref _idCounter);
         }
 
         public void Dispose()
@@ -33,9 +37,20 @@ namespace MugenMvvmToolkit.DryIoc
                 Disposed?.Invoke(this, EventArgs.Empty);
 
             _container.Dispose();
+            _disposed = true;
         }
 
-        public bool IsDisposed => _container.IsDisposed;
+        public bool IsDisposed
+        {
+            get
+            {
+                if (_container is Container container)
+                {
+                    return container.IsDisposed;
+                }
+                return _disposed;
+            }
+        }
 
         public event EventHandler<IDisposableObject, EventArgs> Disposed;
 
