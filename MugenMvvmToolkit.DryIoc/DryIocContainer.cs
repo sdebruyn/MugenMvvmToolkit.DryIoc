@@ -20,7 +20,7 @@ namespace MugenMvvmToolkit.DryIoc
 
         public DryIocContainer()
         {
-            _container = new Container(Rules.Default.With(FactoryMethod.ConstructorWithResolvableArguments).WithoutThrowOnRegisteringDisposableTransient());
+            _container = new Container(Rules.Default.With(FactoryMethod.ConstructorWithResolvableArguments).WithUnknownServiceResolvers());
             Id = Interlocked.Increment(ref _idCounter);
         }
 
@@ -61,8 +61,6 @@ namespace MugenMvvmToolkit.DryIoc
 
         public object Get(Type service, string name = null, params IIocParameter[] parameters)
         {
-            if (name == null && !_container.IsRegistered(service))
-                return _container.New(service);
             return _container.Resolve(service, name);
         }
 
@@ -155,9 +153,6 @@ namespace MugenMvvmToolkit.DryIoc
 
             public object Get(Type service, string name = null, params IIocParameter[] parameters)
             {
-                if (!_parentContainer.CanResolve(service, name))
-                    return _parentContainer.Get(service, name, parameters);
-
                 return _resolver.Resolve(service, name);
             }
 
