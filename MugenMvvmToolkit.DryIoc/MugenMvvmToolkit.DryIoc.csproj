@@ -5,7 +5,7 @@
     <Authors>Samuel Debruyn</Authors>
     <PackageLicenseUrl>https://github.com/SamuelDebruyn/MugenMvvmToolkit.DryIoc/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/SamuelDebruyn/MugenMvvmToolkit.DryIoc</PackageProjectUrl>
-    <PackageTags>ioc,dependency injection,mvvm,mugenmvvm,dryioc</PackageTags>
+    <PackageTags>ioc,dependencyinjection,mvvm,mugenmvvm,dryioc,di</PackageTags>
     <Title>DryIoc container for Mugen MVVM Toolkit</Title>
     <Description>Adapter for DryIoc to integrate with Mugen MVVM Toolkit</Description>
     <PackageId>MugenMvvmToolkit.DryIoc</PackageId>
