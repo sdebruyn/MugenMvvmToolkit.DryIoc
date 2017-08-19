@@ -20,7 +20,7 @@ namespace MugenMvvmToolkit.DryIoc
 
         public DryIocContainer()
         {
-            _container = new Container(Rules.Default.With(FactoryMethod.ConstructorWithResolvableArguments).WithUnknownServiceResolvers());
+            _container = new Container(Rules.Default.With(FactoryMethod.ConstructorWithResolvableArguments).WithAutoConcreteTypeResolution());
             Id = Interlocked.Increment(ref _idCounter);
         }
 
