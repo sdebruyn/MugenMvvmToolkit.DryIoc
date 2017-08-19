@@ -12,15 +12,24 @@ namespace MugenMvvmToolkit.DryIoc
 {
     public class DryIocContainer : IIocContainer
     {
+        public static readonly DependencyLifecycle SingleInstancePerThread;
+        public static readonly DependencyLifecycle SingleInstancePerResolution;
+
+        static DryIocContainer()
+        {
+            SingleInstancePerThread = new DependencyLifecycle("Thread");
+            SingleInstancePerResolution = new DependencyLifecycle("ResolutionScope");
+        }
+        
         static int _idCounter;
 
         readonly IContainer _container;
         readonly DryIocContainer _parent;
         bool _disposed;
 
-        public DryIocContainer()
+        DryIocContainer(Rules rules)
         {
-            _container = new Container(Rules.Default.With(FactoryMethod.ConstructorWithResolvableArguments).WithAutoConcreteTypeResolution());
+            _container = new Container(rules);
             Id = Interlocked.Increment(ref _idCounter);
         }
 
@@ -56,6 +65,7 @@ namespace MugenMvvmToolkit.DryIoc
 
         public IIocContainer CreateChild()
         {
+            
             return new DryIocContainer(this);
         }
 
@@ -118,7 +128,38 @@ namespace MugenMvvmToolkit.DryIoc
             if (lifecycle == DependencyLifecycle.TransientInstance)
                 return Reuse.Transient;
 
+            if (lifecycle == SingleInstancePerThread)
+                return Reuse.InThread;
+
+            if (lifecycle == SingleInstancePerResolution)
+                return Reuse.InResolutionScope;
+
             return null;
+        }
+        
+        public sealed class Builder
+        {
+            readonly Rules _rules;
+
+            public Builder()
+            {
+                _rules = Rules.Default;
+            }
+
+            Builder(Rules rules)
+            {
+                _rules = rules;
+            }
+
+            public Builder DisableDisposeWarnings()
+            {
+                return !_rules.ThrowOnRegisteringDisposableTransient ? this : new Builder(_rules.WithoutThrowOnRegisteringDisposableTransient());
+            }
+            
+            public DryIocContainer Build()
+            {
+                return new DryIocContainer(_rules.With(FactoryMethod.ConstructorWithResolvableArguments).WithAutoConcreteTypeResolution());
+            }
         }
 
         class ResolverBasedContainer : IIocContainer

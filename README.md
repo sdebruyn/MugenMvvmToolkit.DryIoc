@@ -8,11 +8,26 @@ Adapter for [DryIoc](https://bitbucket.org/dadhi/dryioc) to integrate with [Muge
 Install-Package MugenMvvmToolkit.DryIoc
 ```
 
+### Features & usage
+
+DryIoc is [one of the **fastest**](http://www.palmmedia.de/blog/2011/8/30/ioc-container-benchmark-performance-comparison) IoC containers. This is a wrapper for DryIoc to work with Mugen MVVM Toolkit so you can use all the default Mugen MVVM APIs (`IModule`, `IIocContainer` etc.)
+
+* Dependency lifecycle `SingleInstancePerThread`
+* Dependency lifecycle `SingleInstancePerResolution`
+* Use the fluent API of `DryIocContainer.Builder` to configure and build the container
+
 ### Parameters
 
 At the moment there are no supported IIocParameters as I haven't needed them myself. Please create an issue or a PR if you're missing functionality.
 
 ### Release notes
+
+#### 1.1.0 (breaking changes)
+
+* [IMPROVEMENT] Use built-in DryIoc feature to resolve unregistered types
+* [FEATURE - BREAKING CHANGE] Configure container options using fluent API
+* [FEATURE] Dependency lifecycle `SingleInstancePerThread`
+* [FEATURE] Dependency lifecycle `SingleInstancePerResolution`
 
 #### 1.0.1
 
