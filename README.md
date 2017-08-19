@@ -17,6 +17,7 @@ At the moment there are no supported IIocParameters as I haven't needed them mys
 #### 1.0.1
 
 * [FIXED] Child containers didn't have the parent's registrations
+* [FIXED] Resolve unregistered types
 
 #### 1.0.0
 

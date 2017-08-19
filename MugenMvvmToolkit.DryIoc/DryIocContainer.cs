@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -20,14 +20,14 @@ namespace MugenMvvmToolkit.DryIoc
 
         public DryIocContainer()
         {
-            _container = new Container(rules => rules.With(FactoryMethod.ConstructorWithResolvableArguments));
+            _container = new Container(Rules.Default.With(FactoryMethod.ConstructorWithResolvableArguments).WithoutThrowOnRegisteringDisposableTransient());
             Id = Interlocked.Increment(ref _idCounter);
         }
 
         DryIocContainer(DryIocContainer parent)
         {
             _parent = parent;
-            _container = ((Container) parent.Container).WithRegistrationsCopy();
+            _container = ((Container)parent.Container).WithRegistrationsCopy();
             Id = Interlocked.Increment(ref _idCounter);
         }
 
@@ -61,6 +61,8 @@ namespace MugenMvvmToolkit.DryIoc
 
         public object Get(Type service, string name = null, params IIocParameter[] parameters)
         {
+            if (name == null && !_container.IsRegistered(service))
+                return _container.New(service);
             return _container.Resolve(service, name);
         }
 
@@ -107,7 +109,7 @@ namespace MugenMvvmToolkit.DryIoc
 
         public object GetService(Type serviceType)
         {
-            return _container.Resolve(serviceType);
+            return Get(serviceType);
         }
 
         static IReuse ConvertToReuse(DependencyLifecycle lifecycle)
@@ -153,6 +155,9 @@ namespace MugenMvvmToolkit.DryIoc
 
             public object Get(Type service, string name = null, params IIocParameter[] parameters)
             {
+                if (!_parentContainer.CanResolve(service, name))
+                    return _parentContainer.Get(service, name, parameters);
+
                 return _resolver.Resolve(service, name);
             }
 
@@ -191,14 +196,14 @@ namespace MugenMvvmToolkit.DryIoc
             }
 
             public int Id { get; }
-            
+
             public IIocContainer Parent => _parentContainer;
-            
+
             public object Container => _resolver;
 
             public object GetService(Type serviceType)
             {
-                return _resolver.Resolve(serviceType);
+                return Get(serviceType);
             }
         }
     }
