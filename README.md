@@ -22,6 +22,10 @@ At the moment there are no supported IIocParameters as I haven't needed them mys
 
 ### Release notes
 
+#### 1.1.1
+
+* [IMPROVEMENT] Throw an `ArgumentException` when parameters are passed to the container that the container doesn't implement (yet)
+
 #### 1.1.0 (breaking changes)
 
 * [IMPROVEMENT] Use built-in DryIoc feature to resolve unregistered types

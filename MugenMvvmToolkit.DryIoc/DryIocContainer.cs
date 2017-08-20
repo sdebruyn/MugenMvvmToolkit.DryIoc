@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using DryIoc;
 using MugenMvvmToolkit.Interfaces;
@@ -15,17 +14,17 @@ namespace MugenMvvmToolkit.DryIoc
         public static readonly DependencyLifecycle SingleInstancePerThread;
         public static readonly DependencyLifecycle SingleInstancePerResolution;
 
-        static DryIocContainer()
-        {
-            SingleInstancePerThread = new DependencyLifecycle("Thread");
-            SingleInstancePerResolution = new DependencyLifecycle("ResolutionScope");
-        }
-        
         static int _idCounter;
 
         readonly IContainer _container;
         readonly DryIocContainer _parent;
         bool _disposed;
+
+        static DryIocContainer()
+        {
+            SingleInstancePerThread = new DependencyLifecycle("Thread");
+            SingleInstancePerResolution = new DependencyLifecycle("ResolutionScope");
+        }
 
         DryIocContainer(Rules rules)
         {
@@ -49,33 +48,32 @@ namespace MugenMvvmToolkit.DryIoc
             _disposed = true;
         }
 
-        public bool IsDisposed
-        {
-            get
-            {
-                if (_container is Container container)
-                {
-                    return container.IsDisposed;
-                }
-                return _disposed;
-            }
-        }
+        public bool IsDisposed => _container is Container container ? container.IsDisposed : _disposed;
 
         public event EventHandler<IDisposableObject, EventArgs> Disposed;
 
         public IIocContainer CreateChild()
         {
-            
             return new DryIocContainer(this);
         }
 
         public object Get(Type service, string name = null, params IIocParameter[] parameters)
         {
+            ThrowForUnusedParameters(parameters);
             return _container.Resolve(service, name);
+        }
+
+        internal static void ThrowForUnusedParameters(IIocParameter[] parameters)
+        {
+            if (parameters != null && parameters.Length > 0)
+            {
+                throw new ArgumentException("The given parameters are not supported by this IoC container.", nameof(parameters));
+            }
         }
 
         public IEnumerable<object> GetAll(Type service, string name = null, params IIocParameter[] parameters)
         {
+            ThrowForUnusedParameters(parameters);
             return _container.ResolveMany(service, serviceKey: name);
         }
 
@@ -96,6 +94,7 @@ namespace MugenMvvmToolkit.DryIoc
         public void Bind(Type service, Type typeTo, DependencyLifecycle lifecycle, string name = null,
             params IIocParameter[] parameters)
         {
+            ThrowForUnusedParameters(parameters);
             _container.Register(service, typeTo, ConvertToReuse(lifecycle), serviceKey: name);
         }
 
@@ -136,7 +135,7 @@ namespace MugenMvvmToolkit.DryIoc
 
             return null;
         }
-        
+
         public sealed class Builder
         {
             readonly Rules _rules;
@@ -153,12 +152,15 @@ namespace MugenMvvmToolkit.DryIoc
 
             public Builder DisableDisposeWarnings()
             {
-                return !_rules.ThrowOnRegisteringDisposableTransient ? this : new Builder(_rules.WithoutThrowOnRegisteringDisposableTransient());
+                return !_rules.ThrowOnRegisteringDisposableTransient
+                    ? this
+                    : new Builder(_rules.WithoutThrowOnRegisteringDisposableTransient());
             }
-            
+
             public DryIocContainer Build()
             {
-                return new DryIocContainer(_rules.With(FactoryMethod.ConstructorWithResolvableArguments).WithAutoConcreteTypeResolution());
+                return new DryIocContainer(_rules.With(FactoryMethod.ConstructorWithResolvableArguments)
+                    .WithAutoConcreteTypeResolution());
             }
         }
 
@@ -194,11 +196,13 @@ namespace MugenMvvmToolkit.DryIoc
 
             public object Get(Type service, string name = null, params IIocParameter[] parameters)
             {
+                ThrowForUnusedParameters(parameters);
                 return _resolver.Resolve(service, name);
             }
 
             public IEnumerable<object> GetAll(Type service, string name = null, params IIocParameter[] parameters)
             {
+                ThrowForUnusedParameters(parameters);
                 return _resolver.ResolveMany(service, serviceKey: name);
             }
 
@@ -212,12 +216,14 @@ namespace MugenMvvmToolkit.DryIoc
                 string name = null,
                 params IIocParameter[] parameters)
             {
+                ThrowForUnusedParameters(parameters);
                 _parentContainer.BindToMethod(service, methodBindingDelegate, lifecycle, name, parameters);
             }
 
             public void Bind(Type service, Type typeTo, DependencyLifecycle lifecycle, string name = null,
                 params IIocParameter[] parameters)
             {
+                ThrowForUnusedParameters(parameters);
                 _parentContainer.Bind(service, typeTo, lifecycle, name, parameters);
             }
 
