@@ -81,7 +81,7 @@ namespace MugenMvvmToolkit.DryIoc
 
         public void BindToConstant(Type service, object instance, string name = null)
         {
-            _container.RegisterInstance(service, instance, serviceKey: name);
+            _container.UseInstance(service, instance, serviceKey: name);
         }
 
         public void BindToMethod(Type service, Func<IIocContainer, IList<IIocParameter>, object> methodBindingDelegate,
