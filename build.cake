@@ -1,4 +1,4 @@
-const string version = "1.1.1";
+const string version = "1.1.2";
 
 const string defaultTarget = "Default";
 const string solutionPath = "./MugenMvvmToolkit.DryIoc.sln";
