@@ -12,8 +12,9 @@ Install-Package MugenMvvmToolkit.DryIoc
 
 DryIoc is [one of the **fastest**](http://www.palmmedia.de/blog/2011/8/30/ioc-container-benchmark-performance-comparison) IoC containers. This is a wrapper for DryIoc to work with Mugen MVVM Toolkit so you can use all the default Mugen MVVM APIs (`IModule`, `IIocContainer` etc.)
 
-* Dependency lifecycle `SingleInstancePerThread`
-* Dependency lifecycle `SingleInstancePerResolution`
+* Supported default Mugen MVVM dependency lifecycles: `TransientInstance`, `SingleInstance`
+* Extra dependency lifecycle `SingleInstancePerThread`
+* Extra dpendency lifecycle `SingleInstancePerResolution`
 * Use the fluent API of `DryIocContainer.Builder` to configure and build the container
 
 ### Parameters
@@ -24,7 +25,8 @@ At the moment there are no supported IIocParameters as I haven't needed them mys
 
 #### 1.1.1
 
-* [IMPROVEMENT] Throw an `ArgumentException` when parameters are passed to the container that the container doesn't implement (yet)
+* [FEATURE] Code documentation and unit tests
+* [FEATURE] Throw an `ArgumentException` when parameters are passed to the container that the container doesn't implement (yet)
 
 #### 1.1.0 (breaking changes)
 
