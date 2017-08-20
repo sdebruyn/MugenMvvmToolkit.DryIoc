@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MugenMvvmToolkit.DryIoc", "MugenMvvmToolkit.DryIoc\MugenMvvmToolkit.DryIoc.csproj", "{494352EA-3BAB-45ED-82D4-C99EE67A99B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MugenMvvmToolkit.DryIoc.Tests", "MugenMvvmToolkit.DryIoc.Tests\MugenMvvmToolkit.DryIoc.Tests.csproj", "{BF0D96BD-6FE4-4D02-9049-DA7BBAD7D1A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,5 +15,9 @@ Global
 		{494352EA-3BAB-45ED-82D4-C99EE67A99B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{494352EA-3BAB-45ED-82D4-C99EE67A99B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{494352EA-3BAB-45ED-82D4-C99EE67A99B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF0D96BD-6FE4-4D02-9049-DA7BBAD7D1A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF0D96BD-6FE4-4D02-9049-DA7BBAD7D1A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF0D96BD-6FE4-4D02-9049-DA7BBAD7D1A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF0D96BD-6FE4-4D02-9049-DA7BBAD7D1A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

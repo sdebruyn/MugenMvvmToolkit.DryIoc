@@ -2,6 +2,8 @@ const string version = "1.1.1";
 
 const string defaultTarget = "Default";
 const string solutionPath = "./MugenMvvmToolkit.DryIoc.sln";
+const string projectPath = "./MugenMvvmToolkit.DryIoc/MugenMvvmToolkit.DryIoc.csproj";
+const string testProjectPath = "./MugenMvvmToolkit.DryIoc.Tests/MugenMvvmToolkit.DryIoc.Tests.csproj";
 const string configuration = "Release";
 
 var target = Argument("target", defaultTarget);
@@ -17,7 +19,9 @@ Task(defaultTarget)
   .Does(() =>
 {
   DotNetCoreRestore(solutionPath);
-  DotNetCorePack(solutionPath, packSettings);
+  DotNetCoreBuild(solutionPath);
+  DotNetCoreTest(testProjectPath);
+  DotNetCorePack(projectPath, packSettings);
 });
 
 RunTarget(target);
