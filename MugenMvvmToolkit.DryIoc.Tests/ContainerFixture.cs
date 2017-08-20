@@ -1,5 +1,7 @@
 ﻿using System;
+using Xunit;
 
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
 namespace MugenMvvmToolkit.DryIoc.Tests
 {
     public class ContainerFixture : IDisposable
